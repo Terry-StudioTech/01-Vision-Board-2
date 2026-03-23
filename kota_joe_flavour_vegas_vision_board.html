@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Bebas+Neue&family=Montserrat:wght@400;600;800&display=swap');
+
+  :root {
+    --gold: #D4AF37;
+    --gold2: #FFD700;
+    --gold3: #B8860B;
+    --crimson: #DC143C;
+    --neon-red: #FF2020;
+    --hot-pink: #FF1493;
+    --chrome: #E8E8E8;
+    --black: #080810;
+    --black2: #0F0F1E;
+    --black3: #1A1020;
+    --deep: #120808;
+    --electric-white: #FFFEF0;
+    --ruby: #9B0000;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--black);
+    font-family: 'Montserrat', sans-serif;
+    color: var(--electric-white);
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* SPOTLIGHT BEAMS */
+  .spotlights {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .beam {
+    position: absolute;
+    top: -20px;
+    width: 3px;
+    height: 60vh;
+    transform-origin: top center;
+    opacity: 0.06;
+    animation: sweepBeam var(--dur, 8s) ease-in-out infinite var(--delay, 0s) alternate;
+  }
+  @keyframes sweepBeam {
+    0% { transform: rotate(var(--from, -20deg)); }
+    100% { transform: rotate(var(--to, 20deg)); }
+  }
+
+  /* MARQUEE BULBS */
+  .bulb-row {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 10px 0;
+  }
+  .bulb {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    animation: bulbFlash var(--d, 1.5s) ease-in-out infinite var(--delay, 0s);
+  }
+  @keyframes bulbFlash {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.25; }
+  }
+
+  .wrapper {
+    position: relative;
+    z-index: 2;
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 20px 20px 60px;
+  }
+
+  /* ===== HERO MARQUEE ===== */
+  .marquee-hero {
+    text-align: center;
+    padding: 28px 16px 20px;
+    position: relative;
+    border: 2px solid var(--gold3);
+    border-radius: 4px;
+    background: var(--black2);
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+  .marquee-hero::before {
+    content: '';
+    position: absolute;
+    inset: 8px;
+    border: 1px solid rgba(212,175,55,0.2);
+    border-radius: 2px;
+    pointer-events: none;
+  }
+
+  .hotel-brand {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: clamp(9px, 1.8vw, 13px);
+    letter-spacing: 6px;
+    color: var(--gold);
+    margin-bottom: 10px;
+    opacity: 0.85;
+  }
+
+  .main-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: clamp(32px, 7vw, 64px);
+    line-height: 0.95;
+    color: var(--gold2);
+    text-shadow: 0 0 40px rgba(255,215,0,0.4), 2px 2px 0 var(--gold3);
+    margin-bottom: 6px;
+    animation: titleShimmer 4s ease-in-out infinite;
+    letter-spacing: -1px;
+  }
+  @keyframes titleShimmer {
+    0%, 100% { text-shadow: 0 0 30px rgba(255,215,0,0.3), 2px 2px 0 var(--gold3); }
+    50% { text-shadow: 0 0 60px rgba(255,215,0,0.6), 0 0 100px rgba(255,215,0,0.2), 2px 2px 0 var(--gold3); }
+  }
+
+  .title-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin: 10px 0;
+  }
+  .div-line { flex: 1; max-width: 120px; height: 1px; background: var(--gold3); opacity: 0.6; }
+  .div-diamond {
+    width: 8px; height: 8px;
+    background: var(--gold);
+    transform: rotate(45deg);
+    animation: diamondPulse 2s ease-in-out infinite;
+  }
+  @keyframes diamondPulse {
+    0%, 100% { opacity: 1; transform: rotate(45deg) scale(1); }
+    50% { opacity: 0.6; transform: rotate(45deg) scale(0.7); }
+  }
+
+  .subtitle-neon {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(14px, 3vw, 22px);
+    letter-spacing: 5px;
+    color: var(--hot-pink);
+    text-shadow: 0 0 20px rgba(255,20,147,0.5);
+    animation: neonFlicker 5s ease-in-out infinite;
+    margin-bottom: 14px;
+  }
+  @keyframes neonFlicker {
+    0%, 94%, 96%, 98%, 100% { opacity: 1; }
+    95%, 97%, 99% { opacity: 0.7; }
+  }
+
+  .campaign-pills {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .cpill {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    padding: 5px 14px;
+    border-radius: 2px;
+    text-transform: uppercase;
+  }
+
+  /* ===== SECTION HEADERS ===== */
+  .section-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 32px 0 16px;
+  }
+  .sh-diamond {
+    width: 10px; height: 10px;
+    background: var(--gold);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+  }
+  .sh-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 14px;
+    letter-spacing: 4px;
+    color: var(--gold);
+  }
+  .sh-line { flex: 1; height: 1px; background: rgba(212,175,55,0.25); }
+
+  /* ===== CORE CONCEPT ===== */
+  .concept-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  @media (max-width: 560px) { .concept-grid { grid-template-columns: 1fr; } }
+
+  .concept-card {
+    background: var(--black2);
+    border: 1px solid rgba(212,175,55,0.2);
+    border-radius: 4px;
+    padding: 18px;
+    position: relative;
+    overflow: hidden;
+  }
+  .concept-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--gold);
+    opacity: 0.7;
+  }
+  .concept-card h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+  .concept-card p {
+    font-size: 12px;
+    line-height: 1.75;
+    color: rgba(255,254,240,0.65);
+  }
+
+  /* ===== TAGLINES ===== */
+  .tagline-stage {
+    background: var(--black2);
+    border: 1px solid rgba(212,175,55,0.15);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .tagline-item {
+    display: flex;
+    align-items: center;
+    padding: 14px 20px;
+    border-bottom: 1px solid rgba(212,175,55,0.08);
+    gap: 16px;
+    transition: background 0.2s;
+    cursor: default;
+  }
+  .tagline-item:last-child { border-bottom: none; }
+  .tagline-item:hover { background: rgba(212,175,55,0.04); }
+  .tag-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    color: rgba(212,175,55,0.3);
+    min-width: 28px;
+    flex-shrink: 0;
+  }
+  .tag-text {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: clamp(13px, 2.5vw, 18px);
+    color: var(--electric-white);
+    flex: 1;
+    letter-spacing: 1px;
+  }
+  .tag-accent {
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    padding: 4px 10px;
+    border-radius: 2px;
+    flex-shrink: 0;
+    text-transform: uppercase;
+  }
+
+  /* ===== COLOR PALETTE ===== */
+  .palette-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .palette-chip {
+    flex: 1;
+    min-width: 90px;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.07);
+  }
+  .chip-swatch {
+    height: 52px;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    padding: 6px 8px;
+  }
+  .chip-label {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1px;
+  }
+  .chip-hex {
+    font-size: 9px;
+    padding: 6px 8px;
+    background: rgba(0,0,0,0.4);
+    color: rgba(255,254,240,0.5);
+    font-family: monospace;
+    letter-spacing: 1px;
+  }
+
+  /* ===== VISUAL LAYERS ===== */
+  .layer-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid rgba(212,175,55,0.2);
+  }
+  .layer-row-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 13px 18px;
+    border-bottom: 1px solid rgba(212,175,55,0.08);
+  }
+  .layer-row-item:last-child { border-bottom: none; }
+  .layer-tag {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    min-width: 90px;
+    flex-shrink: 0;
+  }
+  .layer-content {
+    font-size: 11px;
+    color: rgba(255,254,240,0.6);
+    line-height: 1.6;
+    flex: 1;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  /* ===== BILLBOARD SVG ===== */
+  .billboard-wrap {
+    background: var(--black2);
+    border: 1px solid rgba(212,175,55,0.25);
+    border-radius: 4px;
+    padding: 20px;
+  }
+
+  /* ===== STORE CARDS ===== */
+  .store-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  @media (max-width: 500px) { .store-grid { grid-template-columns: 1fr; } }
+
+  .store-card {
+    border-radius: 4px;
+    padding: 20px 18px;
+    position: relative;
+    overflow: hidden;
+    cursor: default;
+    transition: transform 0.2s;
+    border: 1px solid rgba(212,175,55,0.15);
+  }
+  .store-card:hover { transform: translateY(-2px); }
+  .store-card .s-level {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    margin-bottom: 8px;
+    opacity: 0.7;
+  }
+  .store-card h4 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+  .store-card p {
+    font-size: 11px;
+    line-height: 1.7;
+    color: rgba(255,254,240,0.6);
+  }
+  .store-corner {
+    position: absolute;
+    bottom: 14px; right: 16px;
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    opacity: 0.15;
+    font-weight: 900;
+  }
+
+  /* ===== RISK / WIN ===== */
+  .note-card {
+    border-radius: 4px;
+    padding: 18px 20px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  .note-icon {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .note-card h4 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 12px;
+    letter-spacing: 3px;
+    margin-bottom: 8px;
+  }
+  .note-card p {
+    font-size: 12px;
+    line-height: 1.75;
+    color: rgba(255,254,240,0.65);
+  }
+
+  /* ===== ANIMATED ROULETTE PREVIEW ===== */
+  .roulette-preview {
+    background: var(--black2);
+    border: 1px solid rgba(212,175,55,0.2);
+    border-radius: 4px;
+    padding: 20px;
+    text-align: center;
+    overflow: hidden;
+  }
+  canvas#rouletteCanvas {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+  }
+
+  /* ===== BOTTOM ===== */
+  .showtime-bar {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 28px;
+    border-top: 1px solid rgba(212,175,55,0.15);
+  }
+  .showtime-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(16px, 3vw, 24px);
+    letter-spacing: 8px;
+    color: var(--gold);
+    animation: showBlink 2s step-end infinite;
+  }
+  @keyframes showBlink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  .showtime-sub {
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: rgba(212,175,55,0.35);
+    margin-top: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+<!-- SPOTLIGHT BEAMS -->
+<div class="spotlights">
+  <div class="beam" style="left:15%;background:var(--gold);--dur:7s;--delay:0s;--from:-15deg;--to:5deg;"></div>
+  <div class="beam" style="left:35%;background:var(--hot-pink);--dur:9s;--delay:1s;--from:-5deg;--to:25deg;"></div>
+  <div class="beam" style="left:55%;background:var(--gold);--dur:8s;--delay:2s;--from:-20deg;--to:10deg;"></div>
+  <div class="beam" style="left:75%;background:var(--hot-pink);--dur:10s;--delay:0.5s;--from:5deg;--to:30deg;"></div>
+  <div class="beam" style="left:88%;background:var(--gold);--dur:6s;--delay:3s;--from:-10deg;--to:15deg;"></div>
+</div>
+
+<div class="wrapper">
+
+  <!-- TOP BULB ROW -->
+  <div class="bulb-row" id="topBulbs"></div>
+
+  <!-- HERO MARQUEE -->
+  <div class="marquee-hero">
+    <div class="hotel-brand">◆ &nbsp; KOTA JOE ROADHOUSE &nbsp; ◆ &nbsp; SEASONAL CAMPAIGN &nbsp; ◆</div>
+    <div class="main-title">WELCOME TO<br>FLAVOUR VEGAS</div>
+    <div class="title-divider">
+      <div class="div-line"></div>
+      <div class="div-diamond"></div>
+      <div class="div-diamond" style="margin: 0 6px;"></div>
+      <div class="div-diamond"></div>
+      <div class="div-line"></div>
+    </div>
+    <div class="subtitle-neon">KOTA JOE JACKPOT</div>
+    <div class="campaign-pills">
+      <div class="cpill" style="background:rgba(212,175,55,0.15);color:var(--gold);border:1px solid var(--gold3);">4-Month Campaign</div>
+      <div class="cpill" style="background:rgba(220,20,60,0.15);color:#FF6080;border:1px solid rgba(220,20,60,0.4);">Showbiz Spectacle</div>
+      <div class="cpill" style="background:rgba(255,20,147,0.1);color:var(--hot-pink);border:1px solid rgba(255,20,147,0.3);">Premium Glamour</div>
+      <div class="cpill" style="background:rgba(232,232,232,0.08);color:var(--chrome);border:1px solid rgba(232,232,232,0.2);">4 Locations</div>
+    </div>
+  </div>
+
+  <!-- BOTTOM BULB ROW -->
+  <div class="bulb-row" id="bottomBulbs"></div>
+
+  <!-- ANIMATED PREVIEW CANVAS -->
+  <div class="section-head">
+    <div class="sh-diamond"></div>
+    <div class="sh-text">Hero Visual Preview</div>
+    <div class="sh-line"></div>
+  </div>
+  <div class="roulette-preview">
+    <canvas id="rouletteCanvas" width="580" height="200"></canvas>
+    <p style="font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:4px;color:rgba(212,175,55,0.3);margin-top:12px;">THE HOUSE ALWAYS WINS... WITH SHAKES</p>
+  </div>
+
+  <!-- CORE CONCEPT -->
+  <div class="section-head">
+    <div class="sh-diamond"></div>
+    <div class="sh-text">Core Concept</div>
+    <div class="sh-line"></div>
+  </div>
+  <div class="concept-grid">
+    <div class="concept-card">
+      <h3>The Idea</h3>
+      <p>A glamorous neon entertainment district where milkshakes, burgers, fries, and wings are the celebrities. Marquee glamour meets premium food entertainment.</p>
+    </div>
+    <div class="concept-card">
+      <h3>Why It Works</h3>
+      <p>Kota Joe suits "big event energy." Vegas gives permission to go oversized, lit-up, flashy, bold, and photogenic. Billboard scale is its natural home.</p>
+    </div>
+    <div class="concept-card">
+      <h3>The Look</h3>
+      <p>Main board feels like a luxury casino/hotel sign mixed with diner nostalgia — neon tubing, gold trim, chrome reflections, dramatic spotlight beams, giant 3D letters.</p>
+    </div>
+    <div class="concept-card">
+      <h3>The Brand-Safe Pivot</h3>
+      <p>Not gambling mechanics. Use the <em>aesthetic language</em> of Vegas: lights, spectacle, marquee glamour, jackpot, showtime, luck, indulgence. All feel, zero risk.</p>
+    </div>
+  </div>
+
+  <!-- TAGLINES -->
+  <div class="section-head">
+    <div class="sh-diamond"></div>
+    <div class="sh-text">Headline Taglines</div>
+    <div class="sh-line"></div>
+  </div>
+  <div class="tagline-stage">
+    <div class="tagline-item">
+      <div class="tag-num">01</div>
+      <div class="tag-text">Jackpot of Flavour</div>
+      <div class="tag-accent" style="background:rgba(212,175,55,0.15);color:var(--gold);border:1px solid rgba(212,175,55,0.3);">Hero Line</div>
+    </div>
+    <div class="tagline-item">
+      <div class="tag-num">02</div>
+      <div class="tag-text">Hit the Big Time</div>
+      <div class="tag-accent" style="background:rgba(220,20,60,0.12);color:#FF6080;border:1px solid rgba(220,20,60,0.3);">Bold CTA</div>
+    </div>
+    <div class="tagline-item">
+      <div class="tag-num">03</div>
+      <div class="tag-text">Lucky You. It's Kota Joe.</div>
+      <div class="tag-accent" style="background:rgba(255,20,147,0.1);color:var(--hot-pink);border:1px solid rgba(255,20,147,0.25);">Playful</div>
+    </div>
+    <div class="tagline-item">
+      <div class="tag-num">04</div>
+      <div class="tag-text">All In on Taste</div>
+      <div class="tag-accent" style="background:rgba(232,232,232,0.08);color:var(--chrome);border:1px solid rgba(232,232,232,0.2);">Statement</div>
+    </div>
+    <div class="tagline-item">
+      <div class="tag-num">05</div>
+      <div class="tag-text">The House Always Wins… With Shakes</div>
+      <div class="tag-accent" style="background:rgba(212,175,55,0.1);color:var(--gold);border:1px solid rgba(212,175,55,0.2);">Iconic</div>
+    </div>
+  </div>
+
+  <!-- COLOR SYSTEM -->
+  <div class="section-head">
+    <div class="sh-diamond"></div>
+    <div class="sh-text">Color System</div>
+    <div class="sh-line"></div>
+  </div>
+  <div class="palette-row">
+    <div class="palette-chip">
+      <div class="chip-swatch" style="background:#080810;">
+        <span class="chip-label" style="color:rgba(255,254,240,0.5);">MIDNIGHT BLACK</span>
+      </div>
+      <div class="chip-hex">#080810</div>
+    </div>
+    <div class="palette-chip">
+      <div class="chip-swatch" style="background:#DC143C;">
+        <span class="chip-label" style="color:#fff;">CRIMSON</span>
+      </div>
+      <div class="chip-hex">#DC143C</div>
+    </div>
+    <div class="palette-chip">
+      <div class="chip-swatch" style="background:#FF2020;">
+        <span class="chip-label" style="color:#fff;">NEON RED</span>
+      </div>
+      <div class="chip-hex">#FF2020</div>
+    </div>
+    <div class="palette-chip">
+      <div class="chip-swatch" style="background:#FF1493;">
+        <span class="chip-label" style="color:#fff;">HOT PINK</span>
+      </div>
+      <div class="chip-hex">#FF1493</div>
+    </div>
+    <div class="palette-chip">
+      <div class="chip-swatch" style="background:#D4AF37;">
+        <span class="chip-label" style="color:#2a1a00;">GOLD</span>
+      </div>
+      <div class="chip-hex">#D4AF37</div>
+    </div>
+    <div class="palette-chip">
+      <div class="chip-swatch" style="background:#E8E8E8;">
+        <span class="chip-label" style="color:#333;">CHROME</span>
+      </div>
+      <div class="chip-hex">#E8E8E8</div>
+    </div>
+    <div class="palette-chip">
+      <div class="chip-swatch" style="background:#FFFEF0;">
+        <span class="chip-label" style="color:#333;">ELEC. WHITE</span>
+      </div>
+      <div class="chip-hex">#FFFEF0</div>
+    </div>
+  </div>
+
+  <!-- VISUAL LAYERS -->
+  <div class="section-head">
+    <div class="sh-diamond"></div>
+    <div class="sh-text">Visual Composition Layers</div>
+    <div class="sh-line"></div>
+  </div>
+  <div class="layer-stack">
+    <div class="layer-row-item" style="background:rgba(212,175,55,0.04);">
+      <div class="layer-tag" style="color:var(--gold);">Foreground</div>
+      <div class="layer-content">Giant neon-lit 3D letters · Oversized cherries · Chrome shake towers · Glowing burger crowns · Jackpot coin stacks</div>
+    </div>
+    <div class="layer-row-item" style="background:rgba(220,20,60,0.03);">
+      <div class="layer-tag" style="color:#FF6080;">Midground</div>
+      <div class="layer-content">Lightbulb marquee borders · Roulette swirls · Diamond & card suits · Neon tubing typography · Spotlight cone shapes</div>
+    </div>
+    <div class="layer-row-item" style="background:rgba(255,20,147,0.03);">
+      <div class="layer-tag" style="color:var(--hot-pink);">Background</div>
+      <div class="layer-content">Black night sky · Distant neon boulevard glow · Star fields · Soft pink horizon haze · Deep shadow gradients</div>
+    </div>
+    <div class="layer-row-item" style="background:rgba(232,232,232,0.02);">
+      <div class="layer-tag" style="color:var(--chrome);">Overlay</div>
+      <div class="layer-content">Chrome reflections · Gold trim borders · Floating dice · Glitter scatter · Marquee frame with repeating bulbs</div>
+    </div>
+  </div>
+
+  <!-- BILLBOARD COMPOSITION -->
+  <div class="section-head">
+    <div class="sh-diamond"></div>
+    <div class="sh-text">Billboard Composition Plan</div>
+    <div class="sh-line"></div>
+  </div>
+  <div class="billboard-wrap">
+    <svg viewBox="0 0 680 370" width="100%" xmlns="http://www.w3.org/2000/svg">
+      <!-- Billboard frame outer -->
+      <rect x="60" y="15" width="560" height="340" rx="4" fill="#080810" stroke="#D4AF37" stroke-width="2"/>
+      <!-- Inner gold frame line -->
+      <rect x="70" y="25" width="540" height="320" rx="2" fill="none" stroke="#B8860B" stroke-width="0.8" opacity="0.5"/>
+
+      <!-- Bulb decorations on top edge -->
+      <circle cx="100" cy="15" r="5" fill="#FFD700" opacity="0.9"/>
+      <circle cx="130" cy="15" r="5" fill="#DC143C" opacity="0.9"/>
+      <circle cx="160" cy="15" r="5" fill="#FFD700" opacity="0.9"/>
+      <circle cx="190" cy="15" r="5" fill="#FF1493" opacity="0.9"/>
+      <circle cx="220" cy="15" r="5" fill="#FFD700" opacity="0.9"/>
+      <circle cx="250" cy="15" r="5" fill="#DC143C" opacity="0.9"/>
+      <circle cx="280" cy="15" r="5" fill="#FFD700" opacity="0.9"/>
+      <circle cx="310" cy="15" r="5" fill="#FF1493" opacity="0.9"/>
+      <circle cx="340" cy="15" r="5" fill="#FFD700" opacity="0.9"/>
+      <circle cx="370" cy="15" r="5" fill="#DC143C" opacity="0.9"/>
+      <circle cx="400" cy="15" r="5" fill="#FFD700" opacity="0.9"/>
+      <circle cx="430" cy="15" r="5" fill="#FF1493" opacity="0.9"/>
+      <circle cx="460" cy="15" r="5" fill="#FFD700" opacity="0.9"/>
+      <circle cx="490" cy="15" r="5" fill="#DC143C" opacity="0.9"/>
+      <circle cx="520" cy="15" r="5" fill="#FFD700" opacity="0.9"/>
+      <circle cx="550" cy="15" r="5" fill="#FF1493" opacity="0.9"/>
+      <circle cx="580" cy="15" r="5" fill="#FFD700" opacity="0.9"/>
+
+      <!-- Zone labels & separators -->
+      <!-- TOP 20% zone -->
+      <rect x="60" y="15" width="560" height="68" rx="4" fill="rgba(212,175,55,0.07)"/>
+      <text x="340" y="40" text-anchor="middle" font-family="'Bebas Neue', sans-serif" font-size="11" fill="#D4AF37" letter-spacing="3">TOP 20%  —  HEADLINE ZONE</text>
+      <text x="340" y="58" text-anchor="middle" font-family="'Bebas Neue', sans-serif" font-size="9" fill="rgba(212,175,55,0.45)" letter-spacing="2">JACKPOT OF FLAVOUR  ·  NEON MARQUEE TYPE</text>
+      <line x1="60" y1="83" x2="620" y2="83" stroke="#D4AF37" stroke-width="0.5" opacity="0.3"/>
+
+      <!-- Bracket TOP -->
+      <line x1="32" y1="15" x2="32" y2="83" stroke="#D4AF37" stroke-width="1" opacity="0.4"/>
+      <line x1="32" y1="15" x2="60" y2="15" stroke="#D4AF37" stroke-width="1" opacity="0.4"/>
+      <line x1="32" y1="83" x2="60" y2="83" stroke="#D4AF37" stroke-width="1" opacity="0.4"/>
+      <text x="22" y="52" text-anchor="middle" font-family="'Bebas Neue', sans-serif" font-size="9" fill="#D4AF37" opacity="0.5" transform="rotate(-90,22,52)">20%</text>
+
+      <!-- MIDDLE 60% zone -->
+      <rect x="60" y="83" width="560" height="204" fill="rgba(220,20,60,0.04)"/>
+      <rect x="60" y="83" width="560" height="204" fill="none" stroke="rgba(220,20,60,0.15)" stroke-width="1" stroke-dasharray="6 4"/>
+
+      <!-- Hero element placeholder — main -->
+      <rect x="200" y="100" width="280" height="170" rx="4" fill="rgba(220,20,60,0.07)" stroke="rgba(220,20,60,0.25)" stroke-width="1" stroke-dasharray="4 3"/>
+      <text x="340" y="175" text-anchor="middle" font-family="'Playfair Display', serif" font-size="11" fill="rgba(255,96,128,0.6)">HERO ELEMENT</text>
+      <text x="340" y="192" text-anchor="middle" font-family="'Bebas Neue', sans-serif" font-size="9" fill="rgba(255,255,255,0.2)" letter-spacing="2">3D BURGER · NEON SHAKE · GIANT CHERRY</text>
+
+      <!-- Left elements -->
+      <rect x="80" y="100" width="100" height="80" rx="3" fill="rgba(212,175,55,0.06)" stroke="rgba(212,175,55,0.2)" stroke-width="0.8"/>
+      <text x="130" y="138" text-anchor="middle" font-family="'Bebas Neue', sans-serif" font-size="9" fill="rgba(212,175,55,0.6)" letter-spacing="1">MARQUEE</text>
+      <text x="130" y="151" text-anchor="middle" font-family="'Bebas Neue', sans-serif" font-size="9" fill="rgba(212,175,55,0.6)" letter-spacing="1">LIGHTS</text>
+      <rect x="80" y="196" width="100" height="74" rx="3" fill="rgba(255,20,147,0.06)" stroke="rgba(255,20,147,0.2)" stroke-width="0.8"/>
+      <text x="130" y="237" text-anchor="middle" font-family="'Bebas Neue', sans-serif" font-size="9" fill="rgba(255,20,147,0.6)" letter-spacing="1">SPOTLIGHT</text>
+      <text x="130" y="250" text-anchor="middle" font-family="'Bebas Neue', sans-serif" font-size="9" fill="rgba(255,20,147,0.6)" letter-spacing="1">BEAMS</text>
+
+      <!-- Right elements -->
+      <rect x="500" y="100" width="100" height="80" rx="3" fill="rgba(232,232,232,0.04)" stroke="rgba(232,232,232,0.15)" stroke-width="0.8"/>
+      <text x="550" y="138" text-anchor="middle" font-family="'Bebas Neue', sans-serif" font-size="9" fill="rgba(232,232,232,0.5)" letter-spacing="1">CHROME</text>
+      <text x="550" y="151" text-anchor="middle" font-family="'Bebas Neue', sans-serif" font-size="9" fill="rgba(232,232,232,0.5)" letter-spacing="1">SIGNS</text>
+      <rect x="500" y="196" width="100" height="74" rx="3" fill="rgba(212,175,55,0.05)" stroke="rgba(212,175,55,0.15)" stroke-width="0.8"/>
+      <text x="550" y="237" text-anchor="middle" font-family="'Bebas Neue', sans-serif" font-size="9" fill="rgba(212,175,55,0.5)" letter-spacing="1">GOLD</text>
+      <text x="550" y="250" text-anchor="middle" font-family="'Bebas Neue', sans-serif" font-size="9" fill="rgba(212,175,55,0.5)" letter-spacing="1">TRIM</text>
+
+      <!-- Zone label -->
+      <text x="340" y="225" text-anchor="middle" font-family="'Bebas Neue', sans-serif" font-size="13" fill="rgba(220,20,60,0.25)" letter-spacing="4">MIDDLE 60%  —  CELEBRITY HERO ZONE</text>
+
+      <!-- Bracket MID -->
+      <line x1="32" y1="83" x2="32" y2="287" stroke="#DC143C" stroke-width="1" opacity="0.4"/>
+      <line x1="32" y1="83" x2="60" y2="83" stroke="#DC143C" stroke-width="1" opacity="0.4"/>
+      <line x1="32" y1="287" x2="60" y2="287" stroke="#DC143C" stroke-width="1" opacity="0.4"/>
+      <text x="22" y="185" text-anchor="middle" font-family="'Bebas Neue', sans-serif" font-size="9" fill="#DC143C" opacity="0.5" transform="rotate(-90,22,185)">60%</text>
+
+      <!-- BOTTOM 20% zone -->
+      <line x1="60" y1="287" x2="620" y2="287" stroke="#D4AF37" stroke-width="0.5" opacity="0.3"/>
+      <rect x="60" y="287" width="560" height="68" rx="4" fill="rgba(255,20,147,0.05)"/>
+      <text x="340" y="312" text-anchor="middle" font-family="'Bebas Neue', sans-serif" font-size="11" fill="#FF1493" letter-spacing="3">BOTTOM 20%  —  SUPPORTING ICONS</text>
+      <text x="340" y="330" text-anchor="middle" font-family="'Bebas Neue', sans-serif" font-size="9" fill="rgba(255,20,147,0.4)" letter-spacing="2">CHIPS  ·  DIAMONDS  ·  STORE NAME  ·  CHERRY ICONS</text>
+
+      <!-- Bracket BOTTOM -->
+      <line x1="32" y1="287" x2="32" y2="355" stroke="#FF1493" stroke-width="1" opacity="0.4"/>
+      <line x1="32" y1="287" x2="60" y2="287" stroke="#FF1493" stroke-width="1" opacity="0.4"/>
+      <line x1="32" y1="355" x2="60" y2="355" stroke="#FF1493" stroke-width="1" opacity="0.4"/>
+      <text x="22" y="321" text-anchor="middle" font-family="'Bebas Neue', sans-serif" font-size="9" fill="#FF1493" opacity="0.5" transform="rotate(-90,22,321)">20%</text>
+
+      <!-- Bottom bulbs -->
+      <circle cx="100" cy="355" r="5" fill="#FFD700" opacity="0.9"/>
+      <circle cx="130" cy="355" r="5" fill="#DC143C" opacity="0.9"/>
+      <circle cx="160" cy="355" r="5" fill="#FFD700" opacity="0.9"/>
+      <circle cx="190" cy="355" r="5" fill="#FF1493" opacity="0.9"/>
+      <circle cx="220" cy="355" r="5" fill="#FFD700" opacity="0.9"/>
+      <circle cx="250" cy="355" r="5" fill="#DC143C" opacity="0.9"/>
+      <circle cx="280" cy="355" r="5" fill="#FFD700" opacity="0.9"/>
+      <circle cx="310" cy="355" r="5" fill="#FF1493" opacity="0.9"/>
+      <circle cx="340" cy="355" r="5" fill="#FFD700" opacity="0.9"/>
+      <circle cx="370" cy="355" r="5" fill="#DC143C" opacity="0.9"/>
+      <circle cx="400" cy="355" r="5" fill="#FFD700" opacity="0.9"/>
+      <circle cx="430" cy="355" r="5" fill="#FF1493" opacity="0.9"/>
+      <circle cx="460" cy="355" r="5" fill="#FFD700" opacity="0.9"/>
+      <circle cx="490" cy="355" r="5" fill="#DC143C" opacity="0.9"/>
+      <circle cx="520" cy="355" r="5" fill="#FFD700" opacity="0.9"/>
+      <circle cx="550" cy="355" r="5" fill="#FF1493" opacity="0.9"/>
+      <circle cx="580" cy="355" r="5" fill="#FFD700" opacity="0.9"/>
+    </svg>
+  </div>
+
+  <!-- STORE ADAPTATIONS -->
+  <div class="section-head">
+    <div class="sh-diamond"></div>
+    <div class="sh-text">Store Level Adaptations</div>
+    <div class="sh-line"></div>
+  </div>
+  <div class="store-grid">
+    <div class="store-card" style="background:linear-gradient(135deg,rgba(212,175,55,0.1),rgba(8,8,16,0.6));">
+      <div class="s-level" style="color:var(--gold);">EDENVALE — ACT I</div>
+      <h4 style="color:var(--gold);">Classic Strip Marquee</h4>
+      <p>Old Hollywood glamour on the Edenvale strip. Giant lightbulb-bordered signs, chrome lettering, classic diner font marquee energy. The original Vegas diner dream.</p>
+      <div class="store-corner" style="color:var(--gold);">★</div>
+    </div>
+    <div class="store-card" style="background:linear-gradient(135deg,rgba(220,20,60,0.1),rgba(8,8,16,0.6));">
+      <div class="s-level" style="color:#FF6080;">BOKSBURG — ACT II</div>
+      <h4 style="color:#FF6080;">High-Roller Shake Club</h4>
+      <p>VIP lounge energy. Crimson velvet tones, shake towers as the main event. Every product feels like a high-stakes celebrity order. Dark, dramatic, impossibly cool.</p>
+      <div class="store-corner" style="color:#FF6080;">♦</div>
+    </div>
+    <div class="store-card" style="background:linear-gradient(135deg,rgba(255,20,147,0.1),rgba(8,8,16,0.6));">
+      <div class="s-level" style="color:var(--hot-pink);">ALBERTON — ACT III</div>
+      <h4 style="color:var(--hot-pink);">Pink Flamingo Retro Casino</h4>
+      <p>Hot pink neon, flamingo motifs, retro 1960s Palm Springs casino atmosphere. Fun, flirty, bold. The board that stops traffic and makes people smile.</p>
+      <div class="store-corner" style="color:var(--hot-pink);">♣</div>
+    </div>
+    <div class="store-card" style="background:linear-gradient(135deg,rgba(232,232,232,0.07),rgba(8,8,16,0.6));">
+      <div class="s-level" style="color:var(--chrome);">WONDERBOOM — ACT IV</div>
+      <h4 style="color:var(--chrome);">Moonlit Neon Boulevard</h4>
+      <p>Cinematic nighttime boulevard. Chrome signs catching moonlight, neon reflections on wet pavement, quiet luxury mixed with electric street energy.</p>
+      <div class="store-corner" style="color:var(--chrome);">♠</div>
+    </div>
+  </div>
+
+  <!-- TYPOGRAPHY SYSTEM -->
+  <div class="section-head">
+    <div class="sh-diamond"></div>
+    <div class="sh-text">Typography System</div>
+    <div class="sh-line"></div>
+  </div>
+  <div class="concept-card" style="display:flex;flex-direction:column;gap:18px;">
+    <div>
+      <p style="font-family:'Playfair Display',serif;font-size:clamp(22px,4vw,36px);font-weight:900;color:var(--gold2);letter-spacing:-0.5px;line-height:1.1;">Jackpot of Flavour</p>
+      <p style="font-size:10px;font-weight:800;letter-spacing:3px;color:rgba(212,175,55,0.4);margin-top:4px;">PRIMARY DISPLAY — PLAYFAIR DISPLAY / LUXURY EDITORIAL</p>
+    </div>
+    <div style="border-top:1px solid rgba(212,175,55,0.1);padding-top:16px;">
+      <p style="font-family:'Bebas Neue',sans-serif;font-size:clamp(16px,3vw,26px);letter-spacing:6px;color:var(--hot-pink);">WELCOME TO FLAVOUR VEGAS</p>
+      <p style="font-size:10px;font-weight:800;letter-spacing:3px;color:rgba(255,20,147,0.4);margin-top:4px;">NEON DISPLAY — BEBAS NEUE / MARQUEE TITLES</p>
+    </div>
+    <div style="border-top:1px solid rgba(212,175,55,0.1);padding-top:16px;display:flex;gap:10px;flex-wrap:wrap;">
+      <div style="background:rgba(212,175,55,0.15);color:var(--gold);font-family:'Bebas Neue',sans-serif;font-size:11px;padding:7px 14px;border-radius:2px;letter-spacing:2px;border:1px solid rgba(212,175,55,0.3);">JACKPOT</div>
+      <div style="background:rgba(220,20,60,0.15);color:#FF6080;font-family:'Bebas Neue',sans-serif;font-size:11px;padding:7px 14px;border-radius:2px;letter-spacing:2px;border:1px solid rgba(220,20,60,0.3);">ALL IN</div>
+      <div style="background:rgba(255,20,147,0.12);color:var(--hot-pink);font-family:'Bebas Neue',sans-serif;font-size:11px;padding:7px 14px;border-radius:2px;letter-spacing:2px;border:1px solid rgba(255,20,147,0.25);">SHOWTIME</div>
+      <div style="background:rgba(232,232,232,0.07);color:var(--chrome);font-family:'Bebas Neue',sans-serif;font-size:11px;padding:7px 14px;border-radius:2px;letter-spacing:2px;border:1px solid rgba(232,232,232,0.15);">VIP ONLY</div>
+      <div style="background:rgba(212,175,55,0.1);color:var(--gold);font-family:'Bebas Neue',sans-serif;font-size:11px;padding:7px 14px;border-radius:2px;letter-spacing:2px;border:1px solid rgba(212,175,55,0.2);">LUCKY YOU</div>
+    </div>
+  </div>
+
+  <!-- RISK / WIN NOTES -->
+  <div class="section-head">
+    <div class="sh-diamond"></div>
+    <div class="sh-text">Strategic Notes</div>
+    <div class="sh-line"></div>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:12px;">
+    <div class="note-card" style="background:rgba(220,20,60,0.07);border:1px solid rgba(220,20,60,0.25);">
+      <div class="note-icon" style="color:#FF6080;">!</div>
+      <div>
+        <h4 style="color:#FF6080;">Watch Out — The Risk</h4>
+        <p>If it goes too dark and moody, it loses impact in daytime. The fix: push very bright neon against rich but not muddy backgrounds. Neon always wins over darkness — never let the black swallow the light.</p>
+      </div>
+    </div>
+    <div class="note-card" style="background:rgba(212,175,55,0.06);border:1px solid rgba(212,175,55,0.2);">
+      <div class="note-icon" style="color:var(--gold);">★</div>
+      <div>
+        <h4 style="color:var(--gold);">The Winning Version</h4>
+        <p>Not "casino." Think: "Las Vegas diner fever dream meets premium food entertainment." Avoid actual gambling mechanics entirely — lean into spectacle, showtime energy, jackpot-winning joy. The food is the jackpot. The meal is the show.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SHOWTIME BAR -->
+  <div class="showtime-bar">
+    <div class="showtime-text">SHOWTIME AT KOTA JOE</div>
+    <div class="showtime-sub">Welcome to Flavour Vegas · 4-Month Campaign · All Four Locations</div>
+  </div>
+
+</div>
+
+<script>
+// GENERATE MARQUEE BULBS
+function makeBulbs(containerId, count) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  const colors = ['#FFD700','#DC143C','#FFD700','#FF1493'];
+  for (let i = 0; i < count; i++) {
+    const b = document.createElement('div');
+    b.className = 'bulb';
+    const c = colors[i % colors.length];
+    b.style.cssText = `background:${c};--d:${(1.2 + Math.random()*1.2).toFixed(1)}s;--delay:${(i*0.12).toFixed(1)}s;`;
+    container.appendChild(b);
+  }
+}
+makeBulbs('topBulbs', 52);
+makeBulbs('bottomBulbs', 52);
+
+// ANIMATED CANVAS PREVIEW — Vegas scene
+const canvas = document.getElementById('rouletteCanvas');
+const ctx = canvas.getContext('2d');
+const W = 580, H = 200;
+let frame = 0;
+
+const GOLD = '#D4AF37';
+const GOLD2 = '#FFD700';
+const CRIMSON = '#DC143C';
+const PINK = '#FF1493';
+const BLACK = '#080810';
+const WHITE = '#FFFEF0';
+const CHROME = '#C8C8C8';
+
+function drawScene(t) {
+  ctx.clearRect(0, 0, W, H);
+
+  // Background
+  ctx.fillStyle = '#0A0810';
+  ctx.fillRect(0, 0, W, H);
+
+  // Horizon glow
+  ctx.fillStyle = 'rgba(220,20,60,0.08)';
+  ctx.fillRect(0, H*0.6, W, H*0.4);
+
+  // Marquee border — top and bottom rows of bulbs
+  const bulbColors = [GOLD2, CRIMSON, GOLD2, PINK];
+  for (let i = 0; i < 28; i++) {
+    const x = 20 + i * 19.5;
+    const flicker = Math.sin(t * 3 + i * 0.8) > 0.6;
+    ctx.beginPath();
+    ctx.arc(x, 14, 5, 0, Math.PI * 2);
+    ctx.fillStyle = flicker ? '#fff' : bulbColors[i % 4];
+    ctx.globalAlpha = flicker ? 1 : 0.7;
+    ctx.fill();
+    ctx.globalAlpha = 1;
+    ctx.beginPath();
+    ctx.arc(x, H - 14, 5, 0, Math.PI * 2);
+    ctx.fillStyle = flicker ? '#fff' : bulbColors[(i+2) % 4];
+    ctx.globalAlpha = flicker ? 1 : 0.7;
+    ctx.fill();
+    ctx.globalAlpha = 1;
+  }
+
+  // Left side bulbs
+  for (let i = 0; i < 8; i++) {
+    const y = 28 + i * 20;
+    const flicker = Math.sin(t * 2.5 + i * 1.2) > 0.5;
+    ctx.beginPath();
+    ctx.arc(14, y, 4, 0, Math.PI * 2);
+    ctx.fillStyle = flicker ? '#fff' : bulbColors[i % 4];
+    ctx.globalAlpha = flicker ? 1 : 0.65;
+    ctx.fill();
+    ctx.globalAlpha = 1;
+    ctx.beginPath();
+    ctx.arc(W - 14, y, 4, 0, Math.PI * 2);
+    ctx.fillStyle = flicker ? '#fff' : bulbColors[(i+1) % 4];
+    ctx.globalAlpha = flicker ? 1 : 0.65;
+    ctx.fill();
+    ctx.globalAlpha = 1;
+  }
+
+  // Gold frame lines
+  ctx.strokeStyle = GOLD;
+  ctx.lineWidth = 1;
+  ctx.globalAlpha = 0.35;
+  ctx.strokeRect(24, 24, W - 48, H - 48);
+  ctx.globalAlpha = 1;
+
+  // Spinning roulette wheel (left)
+  const wx = 95, wy = H / 2, wr = 55;
+  const segments = 12;
+  for (let i = 0; i < segments; i++) {
+    const startA = t * 0.4 + (i / segments) * Math.PI * 2;
+    const endA = startA + (Math.PI * 2 / segments);
+    ctx.beginPath();
+    ctx.moveTo(wx, wy);
+    ctx.arc(wx, wy, wr, startA, endA);
+    ctx.closePath();
+    ctx.fillStyle = i % 2 === 0 ? CRIMSON : '#1A0010';
+    ctx.fill();
+    ctx.strokeStyle = GOLD;
+    ctx.lineWidth = 0.8;
+    ctx.stroke();
+  }
+  // Wheel center
+  ctx.beginPath();
+  ctx.arc(wx, wy, 10, 0, Math.PI * 2);
+  ctx.fillStyle = GOLD2;
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(wx, wy, 5, 0, Math.PI * 2);
+  ctx.fillStyle = BLACK;
+  ctx.fill();
+  // Wheel rim
+  ctx.beginPath();
+  ctx.arc(wx, wy, wr, 0, Math.PI * 2);
+  ctx.strokeStyle = GOLD2;
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  // Giant cherry (center-left)
+  const cx2 = 210, cy2 = H / 2 + 10;
+  // stem
+  ctx.strokeStyle = '#2D4A10';
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(cx2, cy2 - 30);
+  ctx.quadraticCurveTo(cx2 + 20, cy2 - 55, cx2 + 40, cy2 - 30);
+  ctx.stroke();
+  // cherry 1
+  ctx.beginPath();
+  ctx.arc(cx2, cy2 - 10, 22, 0, Math.PI * 2);
+  ctx.fillStyle = CRIMSON;
+  ctx.fill();
+  ctx.strokeStyle = '#8B0000';
+  ctx.lineWidth = 1;
+  ctx.stroke();
+  // highlight
+  ctx.beginPath();
+  ctx.arc(cx2 - 7, cy2 - 18, 6, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(255,255,255,0.3)';
+  ctx.fill();
+  // cherry 2
+  ctx.beginPath();
+  ctx.arc(cx2 + 40, cy2 - 10, 22, 0, Math.PI * 2);
+  ctx.fillStyle = '#C00020';
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(cx2 + 33, cy2 - 18, 6, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(255,255,255,0.25)';
+  ctx.fill();
+
+  // Main title text
+  ctx.font = 'bold 28px "Playfair Display", serif';
+  ctx.textAlign = 'center';
+  const textX = 390;
+  // Shadow
+  ctx.fillStyle = 'rgba(0,0,0,0.6)';
+  ctx.fillText('FLAVOUR VEGAS', textX + 2, H/2 - 10 + 2);
+  // Gold text
+  ctx.fillStyle = GOLD2;
+  ctx.fillText('FLAVOUR VEGAS', textX, H/2 - 10);
+
+  // Subtitle
+  ctx.font = '600 11px Montserrat, sans-serif';
+  ctx.letterSpacing = '4px';
+  ctx.fillStyle = PINK;
+  const glowAlpha = 0.5 + 0.5 * Math.sin(t * 2);
+  ctx.globalAlpha = 0.7 + glowAlpha * 0.3;
+  ctx.fillText('KOTA JOE JACKPOT', textX, H/2 + 18);
+  ctx.globalAlpha = 1;
+
+  // Floating stars & diamonds
+  const floaters = [
+    {x: 310, y: 50, type: 'star', speed: 1.2},
+    {x: 450, y: 45, type: 'diamond', speed: 0.8},
+    {x: 500, y: 55, type: 'star', speed: 1.5},
+    {x: 340, y: 155, type: 'diamond', speed: 0.9},
+    {x: 480, y: 148, type: 'star', speed: 1.1},
+    {x: 560, y: 70, type: 'diamond', speed: 1.3},
+  ];
+  floaters.forEach((f, i) => {
+    const yOff = Math.sin(t * f.speed + i * 1.4) * 5;
+    const alpha = 0.4 + 0.5 * Math.abs(Math.sin(t * 0.7 + i * 2));
+    ctx.globalAlpha = alpha;
+    if (f.type === 'star') {
+      ctx.fillStyle = GOLD2;
+      drawStar(ctx, f.x, f.y + yOff, 6, 3, 5);
+    } else {
+      ctx.fillStyle = PINK;
+      drawDiamond(ctx, f.x, f.y + yOff, 7);
+    }
+    ctx.globalAlpha = 1;
+  });
+
+  // Coin stack right side
+  const coins = 5;
+  for (let i = 0; i < coins; i++) {
+    const cy3 = H / 2 + 20 - i * 10;
+    ctx.beginPath();
+    ctx.ellipse(545, cy3, 22, 7, 0, 0, Math.PI * 2);
+    ctx.fillStyle = i === 0 ? GOLD2 : GOLD;
+    ctx.fill();
+    ctx.strokeStyle = '#8B6914';
+    ctx.lineWidth = 0.8;
+    ctx.stroke();
+    if (i > 0) {
+      ctx.fillStyle = '#8B6914';
+      ctx.fillRect(523, cy3, 44, 10);
+      ctx.beginPath();
+      ctx.ellipse(545, cy3 + 10, 22, 7, 0, 0, Math.PI * 2);
+      ctx.fillStyle = GOLD;
+      ctx.fill();
+    }
+  }
+
+  frame++;
+}
+
+function drawStar(ctx, cx, cy, outerR, innerR, points) {
+  ctx.beginPath();
+  for (let i = 0; i < points * 2; i++) {
+    const r = i % 2 === 0 ? outerR : innerR;
+    const a = (i * Math.PI) / points - Math.PI / 2;
+    i === 0 ? ctx.moveTo(cx + r * Math.cos(a), cy + r * Math.sin(a))
+            : ctx.lineTo(cx + r * Math.cos(a), cy + r * Math.sin(a));
+  }
+  ctx.closePath();
+  ctx.fill();
+}
+
+function drawDiamond(ctx, cx, cy, r) {
+  ctx.beginPath();
+  ctx.moveTo(cx, cy - r);
+  ctx.lineTo(cx + r * 0.7, cy);
+  ctx.lineTo(cx, cy + r);
+  ctx.lineTo(cx - r * 0.7, cy);
+  ctx.closePath();
+  ctx.fill();
+}
+
+function animate(ts) {
+  drawScene(ts / 1000);
+  requestAnimationFrame(animate);
+}
+requestAnimationFrame(animate);
+</script>
+
+</body>
+</html>
